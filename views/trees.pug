@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  - let trees=[{treeName:"Mango tree",fruitProduced:"Mangoes",ageOfTree:"100"},{treeName:"Apple tree",fruitProduced:"Apples",ageOfTree:"50"},{treeName:"Banana tree",fruitProduced:"Bananas",ageOfTree:"75"}]
+    div(class="container-fluid mt-3")
+    div(class="row")
+        each tree,index in trees
+            div(class="col-sm-2 bg-success m-1 p-3" onclick=`buy(${index})`) #{tree.treeName} - #{tree.fruitProduced} - #{tree.ageOfTree}
+    script.
+     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
