@@ -1,0 +1,53 @@
+extends layout
+
+block content
+    h1= title
+
+    if (toShow == null)
+        h2 No instance to delete
+    else
+        - let treeid = toShow._id
+        - let treeName = toShow.treeName
+        - let fruitProduced = toShow.fruitProduced
+        - let ageOfTree = toShow.ageOfTreeo8
+        - let actionid = "/resource/resource/trees/" + treeid
+        script let actionid = "#{actionid}"
+        div
+            div.row
+                div(class='treeAttr mr-3') tree ID is:
+                div #{treeid}
+            div.row
+                div(class='treeAttr mr-3') tree Type is:
+                div #{treeName}
+            div.row
+                div(class='treeAttr mr-3') tree Size is:
+                div #{fruitProduced}
+            div.row
+                div(class='treeAttr mr-3') tree Cost is:
+                div #{ageOfTree}
+
+        button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+        button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+    script.
+        function cancel() {
+            // Go back to the home page for the tree collection
+            window.location.href='/trees'
+        }
+    script.
+        function deleteOnid() {
+            console.log("starting delete")
+            // delete first
+            fetch(actionid, {
+                method: 'DELETE'      // Don't need a body for the delete
+            }).then((resp) => {
+                return resp.json(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+                alert("Delete succeded")
+                window.location.href='/trees'
+                // TODO handle body
+            }).catch((error) => {
+                // TODO handle error
+                alert("Delete failed " + error )
+            });
+        }

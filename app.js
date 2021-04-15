@@ -6,8 +6,10 @@ var logger = require('morgan');
 
 const connectionString = process.env.MONGO_CON
 mongoose = require('mongoose');
-mongoose.connect(connectionString,
-{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,7 +27,9 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,16 +38,16 @@ app.use('/users', usersRouter);
 app.use('/trees', treesRouter);
 app.use('/stars', starsRouter);
 app.use('/slot', slotRouter);
-app.use('/resource',resourceRouter);
+app.use('/resource', resourceRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -58,34 +62,44 @@ module.exports = app;
 var db = mongoose.connection;
 //Bind connection to error event
 db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
-db.once("open", function(){
-console.log("Connection to DB succeeded");
+db.once("open", function () {
+  console.log("Connection to DB succeeded");
 });
 // We can seed the collection if needed on server start
-async function recreateDB(){
+async function recreateDB() {
   // Delete everything
   await tree.deleteMany();
-  let instance1 = new tree({treeName:"Mango tree", fruitProduced:'Mango',
-  ageOfTree:25});
-  instance1.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("First object saved")
+  let instance1 = new tree({
+    treeName: "Mango tree",
+    fruitProduced: 'Mango',
+    ageOfTree: 25
   });
-  
-  let instance2 = new tree({treeName:"Apple tree", fruitProduced:'Apple',
-  ageOfTree:30});
-  instance2.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("second object saved")
+  instance1.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("First object saved")
   });
-  
-  let instance3 = new tree({treeName:"Banana tree", fruitProduced:'Banana',
-  ageOfTree:50});
-  instance3.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Third object saved")
+
+  let instance2 = new tree({
+    treeName: "Apple tree",
+    fruitProduced: 'Apple',
+    ageOfTree: 30
   });
-  }
-  let reseed = true;
-  if (reseed) { recreateDB();}
-  
+  instance2.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("second object saved")
+  });
+
+  let instance3 = new tree({
+    treeName: "Banana tree",
+    fruitProduced: 'Banana',
+    ageOfTree: 50
+  });
+  instance3.save(function (err, doc) {
+    if (err) return console.error(err);
+    console.log("Third object saved")
+  });
+}
+let reseed = true;
+if (reseed) {
+  recreateDB();
+}

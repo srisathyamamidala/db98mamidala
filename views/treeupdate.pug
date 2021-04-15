@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    h1= title
+
+    - let treeid = toShow._id
+    - let treeName = toShow.treeName
+    - let fruitProduced = toShow.fruitProduced
+    - let ageOfTree = toShow.ageOfTree
+
+    div.row(class='mb-2')
+        div.mr-1 ID is
+        div #{treeid}
+    - let actionid = "/resource/resource/trees/" + treeid
+    form(id='treeForm', action= actionid, method="PUT")
+        div.form-group
+            label.treeAttr(for='treeName') tree name
+            input#treeName(type='text' name='treeName', value= treeName )
+        div.form-group
+            label.treeAttr(for='fruitProduced') fruit produced
+            input#fruitProduced(type='text' name='fruitProduced', value= fruitProduced )
+        div.form-group
+            label.treeAttr(for='ageOfTree') age of tree 
+            input#ageOfTree(type='number' name='ageOfTree', value= ageOfTree )
+        input(type="submit")
+
+    script.
+        document.forms['treeForm'].addEventListener('submit', (event) => {
+            event.preventDefault();
+            // TODO do something here to show user that form is being submitted
+            fetch(event.target.action, {
+                method: 'PUT',
+                body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+            }).then((resp) => {
+                return resp.json(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+                alert("Update succeded")
+                // TODO handle body
+            }).catch((error) => {
+                // TODO handle error
+                alert("Update failed " + error )
+            });
+        });
