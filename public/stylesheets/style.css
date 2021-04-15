@@ -10,3 +10,15 @@ a {
   background-color: aquamarine;
   width: 120px;
 }
+.treeitem{
+  margin: 5px;
+  padding: 12px;
+  justify-content:center;
+  font-weight: 500;
+  background-color:burlywood;
+  border-radius: 5px;
+}
+.treeitem:hover{
+  background-color: rgb(180, 255, 4);
+  color: rgb(223, 75, 223);
+}

@@ -3,20 +3,23 @@ extends layout
 block content
   h1= title
 
-  - let treeid = toShow._id
-  - let treeName = toShow.treeName
-  - let fruitProduced = toShow.fruitProduced
-  - let ageOfTree = toShow.ageOfTree
-  div
-    div.row
-      div(class='treeAttr mr-3') tree ID is:
-      div #{treeid}
-    div.row
-      div(class='treeAttr mr-3') tree name is:
-      div #{treeName}
-    div.row
-      div(class='treeAttr mr-3') fruit produced is:
-      div #{fruitProduced}
-    div.row
-      div(class='treeAttr mr-3') age of tree is:
-      div #{ageOfTree}
+  if (toShow == null)
+      h2 No instance to delete
+  else
+    - let treeid = toShow._id
+    - let treeName = toShow.treeName
+    - let fruitProduced = toShow.fruitProduced
+    - let ageOfTree = toShow.ageOfTree
+    div
+      div.row
+        div(class='treeAttr mr-3') tree ID is:
+        div(class='treeitem') #{treeid}
+      div.row
+        div(class='treeAttr mr-3') tree name is:
+        div(class='treeitem ') #{treeName}
+      div.row
+        div(class='treeAttr mr-3') fruit produced is:
+        div(class='treeitem') #{fruitProduced}
+      div.row
+        div(class='treeAttr mr-3') age of tree is:
+        div(class='treeitem') #{ageOfTree}
