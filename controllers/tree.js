@@ -5,7 +5,8 @@ exports.tree_list = async function (req, res) {
         thetrees = await tree.find();
         res.send(thetrees);
     } catch (err) {
-        res.error(500, `{"error": ${err}}`);
+        res.send(`{"error": ${err}}`)
+        res.status(500);
     }
 };
 
@@ -44,21 +45,23 @@ exports.tree_update_put = async function (req, res) {
 // Handle tree create on POST.
 exports.tree_create_post = async function (req, res) {
     console.log(req.body)
-    let document = new tree();
-    // We are looking for a body, since POST does not have query parameters.
-    // Even though bodies can be in many different formats, we will be picky
-    // and require that it be a json object
-    // {"treetype":"goat", "cost":12, "size":"large"}
-    document.treeName = req.body.treeName;
-    document.fruitProduced = req.body.fruitProduced;
-    document.ageOfTree = req.body.ageOfTree;
     try {
+        let document = new tree();
+        // We are looking for a body, since POST does not have query parameters.
+        // Even though bodies can be in many different formats, we will be picky
+        // and require that it be a json object
+        // {"treetype":"goat", "cost":12, "size":"large"}
+        document.treeName = req.body.treeName;
+        document.fruitProduced = req.body.fruitProduced;
+        document.ageOfTree = req.body.ageOfTree;
+
         let result = await document.save();
         res.send(result);
     } catch (err) {
-        res.error(500, `{"error": ${err}}`);
+        // console.log(err);
+        res.send(err)
+        res.status(500);
     }
-
 };
 // Handle tree delete on DELETE.
 exports.tree_delete = async function (req, res) {
@@ -84,7 +87,8 @@ exports.tree_view_all_Page = async function (req, res) {
             results: thetrees
         });
     } catch (err) {
-        res.error(500, `{"error": ${err}}`);
+        res.send(`{"error": ${err}}`)
+        res.status(500);
     }
 };
 // Handle a show one view with id specified by query
@@ -131,13 +135,15 @@ exports.tree_update_Page = async function (req, res) {
     }
 };
 // Handle a delete one view with id from query
-exports.tree_delete_Page = async function(req, res) {
-    console.log("Delete view for id "  + req.query.id)
-    try{
+exports.tree_delete_Page = async function (req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try {
         result = await tree.findById(req.query.id)
-        res.render('treedelete', { title: 'tree Delete', toShow: result });
-    }
-    catch(err){
+        res.render('treedelete', {
+            title: 'tree Delete',
+            toShow: result
+        });
+    } catch (err) {
         res.status(500)
         res.send(`{'error': '${err}'}`);
     }

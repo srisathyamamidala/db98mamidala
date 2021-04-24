@@ -2,15 +2,21 @@ extends layout
 
 block content
   h1= title
-
+  div() Create
+    - location = `dispatch(\"/trees/create")`
+    button.btn( class="btn-primary ml-1", onclick= location) Create
     //- let trees=[{treeName:"Mango tree",fruitProduced:"Mangoes",ageOfTree:"100"},{treeName:"Apple tree",fruitProduced:"Apples",ageOfTree:"50"},{treeName:"Banana tree",fruitProduced:"Bananas",ageOfTree:"75"}]
     - let trees = results
     div(class="container-fluid mt-3")
     div(class="row m-1")
       each tree ,index in trees
        - let destination = `dispatch(\"/trees/update?id=${tree._id}\")`
+       - let destinationDelete=`dispatch(\"/trees/delete?id=${tree._id}\")`
+       - let destinationGet=`dispatch(\"/trees/detail?id=${tree._id}\")`
         div(class="col-sm-2 bg-success m-1 p-3" onclick=`buy(${index})`) #{tree.treeName} - #{tree.fruitProduced} - #{tree.ageOfTree}
          button.btn( class="btn-primary ml-1", onclick= destination) Update
+         button.btn( class="btn-primary ml-1", onclick= destinationDelete) Delete
+         button.btn( class="btn-primary ml-1", onclick= destinationGet) Detail
     script.
       function dispatch(path){
         window.location.href=path
